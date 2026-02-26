@@ -10,5 +10,6 @@
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "gpt-oss",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gpt-oss",
     "ANTHROPIC_API_KEY": "dummy"
-  }
+  },
+  "apiKeyHelper": "bash -c 'echo $ANTHROPIC_API_KEY'"
 }
