@@ -1,3 +1,13 @@
+# Claude Code Configuration for claude-ai-spring-boot
+
+> AI-powered development workspace configuration
+
+## Available Skills
+
+Skills are loaded from `.claude/skills/` (symlinked from claude-code-java).
+
+To use a skill, load it first, then invoke with natural language
+
 # Project Instructions
 
 - Always use the latest versions of dependencies.
