@@ -2,13 +2,19 @@
 
 > AI-powered development workspace configuration
 
-## Available Skills
+## Skills
 
-Skills are loaded from `.claude/skills/` (symlinked from claude-code-java).
+Load all skills from `.claude/skills/`.
 
-To use a skill, load it first, then invoke with natural language
+To use a skill, load it first, then invoke with natural language.
+Each skill is one independent capability.
 
-# Project Instructions
+When solving problems:
+1. Search there first
+2. Extend existing skills
+3. Do not bypass them
+
+## Project General Instructions
 
 - Always use the latest versions of dependencies.
 - Always write Java code as the Spring Boot application.
