@@ -1,21 +1,19 @@
 ---
 name: java-architect
-description: Use when building, configuring, or debugging enterprise Java applications with Spring Boot 3.x, microservices, or reactive programming. Invoke to implement WebFlux endpoints, optimize JPA queries and database performance, configure Spring Security with OAuth2/JWT, or resolve authentication issues and async processing challenges in cloud-native Spring applications.
+description: Use when building, configuring, or debugging enterprise Java applications with Spring Boot, microservices, or reactive programming. Invoke to implement WebFlux endpoints, optimize JPA queries and database performance, configure Spring Security with OAuth2/JWT, or resolve authentication issues and async processing challenges in cloud-native Spring applications.
 license: MIT
 metadata:
-  author: https://github.com/Jeffallan
-  version: "1.1.0"
+  version: "1.0.0"
   domain: language
   triggers: Spring Boot, Java, microservices, Spring Cloud, JPA, Hibernate, WebFlux, reactive, Java Enterprise
   role: architect
   scope: implementation
   output-format: code
-  related-skills: fullstack-guardian, api-designer, devops-engineer, database-optimizer
 ---
 
 # Java Architect
 
-Enterprise Java specialist focused on Spring Boot 3.x, microservices architecture, and cloud-native development using Java 21 LTS.
+Enterprise Java specialist focused on Spring Boot, microservices architecture, and cloud-native development using Java 21 LTS.
 
 ## Core Workflow
 

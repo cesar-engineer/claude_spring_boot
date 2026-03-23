@@ -213,9 +213,12 @@ spring:
 
 ```java
 @Service
-@RequiredArgsConstructor
 public class ExternalApiService {
     private final WebClient webClient;
+
+    public ExternalApiService(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @CircuitBreaker(name = "externalApi", fallbackMethod = "getFallbackData")
     @Retry(name = "externalApi")
@@ -329,9 +332,12 @@ public class UserServiceLoadBalancerConfig {
 }
 
 @Service
-@RequiredArgsConstructor
 public class UserClientService {
     private final WebClient.Builder webClientBuilder;
+
+    public UserClientService(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
     public Mono<User> getUser(Long id) {
         return webClientBuilder

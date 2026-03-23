@@ -8,8 +8,7 @@ Each skill folder contains:
 
 | File | Purpose | Audience |
 |------|---------|----------|
-| `SKILL.md` | Instructions for Claude | AI (loaded with `view`) |
-| `README.md` | Documentation, examples, tips | Humans (onboarding) |
+| `SKILL.md` | Instructions for Claude | AI (loaded with `view`) 
 
 ## Available Skills
 

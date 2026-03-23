@@ -16,10 +16,13 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/users")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public Flux<UserResponse> getAllUsers() {
@@ -70,11 +73,15 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+    }
 
     public Flux<UserResponse> findAll() {
         return userRepository.findAll()
@@ -218,10 +225,13 @@ import reactor.util.retry.Retry;
 import java.time.Duration;
 
 @Component
-@RequiredArgsConstructor
 public class ExternalUserClient {
 
     private final WebClient webClient;
+
+    public ExternalUserClient(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     public Mono<ExternalUserDto> getUser(Long id) {
         return webClient

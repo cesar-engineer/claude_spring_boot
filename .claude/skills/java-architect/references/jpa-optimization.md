@@ -6,7 +6,6 @@
 package com.example.domain.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -28,11 +27,6 @@ import java.util.List;
 )
 @EntityListeners(AuditingEntityListener.class)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
 
     @Id
@@ -55,7 +49,6 @@ public class User {
         fetch = FetchType.LAZY
     )
     @BatchSize(size = 25)
-    @Builder.Default
     private List<Order> orders = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,6 +64,51 @@ public class User {
 
     @Version
     private Long version;
+
+    // Constructors
+    public User() {}
+
+    public User(Long id, String email, String username, Boolean active,
+                List<Order> orders, Department department,
+                Instant createdAt, Instant updatedAt, Long version) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.active = active != null ? active : true;
+        this.orders = orders != null ? orders : new ArrayList<>();
+        this.department = department;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.version = version;
+    }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+
+    public List<Order> getOrders() { return orders; }
+    public void setOrders(List<Order> orders) { this.orders = orders; }
+
+    public Department getDepartment() { return department; }
+    public void setDepartment(Department department) { this.department = department; }
+
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+
+    public Long getVersion() { return version; }
+    public void setVersion(Long version) { this.version = version; }
 
     // Helper methods
     public void addOrder(Order order) {
@@ -204,12 +242,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserQueryService {
 
     private final UserRepository userRepository;
     private final EntityManager entityManager;
+
+    public UserQueryService(UserRepository userRepository, EntityManager entityManager) {
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
+    }
 
     // Batch fetching
     public List<User> findUsersWithOrders(List<Long> userIds) {
@@ -283,11 +325,15 @@ public class UserQueryService {
 
 ```java
 @Service
-@RequiredArgsConstructor
 public class UserBatchService {
 
     private final UserRepository userRepository;
     private final EntityManager entityManager;
+
+    public UserBatchService(UserRepository userRepository, EntityManager entityManager) {
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public void batchInsert(List<User> users) {
@@ -358,8 +404,9 @@ spring:
 ```java
 @Component
 @Aspect
-@Slf4j
 public class QueryPerformanceAspect {
+    private static final org.slf4j.Logger log =
+        org.slf4j.LoggerFactory.getLogger(QueryPerformanceAspect.class);
 
     @Around("@annotation(org.springframework.data.jpa.repository.Query)")
     public Object logQueryPerformance(ProceedingJoinPoint joinPoint) throws Throwable {

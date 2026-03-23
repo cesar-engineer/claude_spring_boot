@@ -66,10 +66,14 @@ public class SecurityConfig {
 
 ```java
 @Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -208,9 +212,12 @@ public class JwtService {
 
 ```java
 @Service
-@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -240,9 +247,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 ```java
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -278,7 +288,6 @@ public class AuthenticationController {
 
 ```java
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class AuthenticationService {
     private final UserRepository userRepository;
@@ -286,18 +295,29 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    public AuthenticationService(UserRepository userRepository,
+                                  PasswordEncoder passwordEncoder,
+                                  JwtService jwtService,
+                                  AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
+
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
             throw new DuplicateResourceException("Email already registered");
         }
 
-        User user = User.builder()
-            .email(request.email())
-            .password(passwordEncoder.encode(request.password()))
-            .username(request.username())
-            .active(true)
-            .roles(Set.of(Role.builder().name("USER").build()))
-            .build();
+        User user = new User();
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setUsername(request.username());
+        user.setActive(true);
+        Role userRole = new Role();
+        userRole.setName("USER");
+        user.setRoles(Set.of(userRole));
 
         user = userRepository.save(user);
 

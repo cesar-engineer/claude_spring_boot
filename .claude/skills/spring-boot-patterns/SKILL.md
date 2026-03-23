@@ -50,10 +50,13 @@ src/main/java/com/example/myapp/
 ```java
 @RestController
 @RequestMapping("/api/v1/users")
-@RequiredArgsConstructor  // Lombok for constructor injection
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAll() {
@@ -134,12 +137,16 @@ public interface UserService {
 
 // Implementation
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)  // Default read-only
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public List<UserResponse> findAll() {
@@ -292,8 +299,9 @@ public class BusinessException extends RuntimeException {
 ### Global Exception Handler
 ```java
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
+    private static final org.slf4j.Logger log =
+        org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {

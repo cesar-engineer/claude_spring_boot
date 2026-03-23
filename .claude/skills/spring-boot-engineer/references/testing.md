@@ -26,11 +26,10 @@ class UserServiceTest {
             25
         );
 
-        User user = User.builder()
-            .id(1L)
-            .email(request.email())
-            .username(request.username())
-            .build();
+        User user = new User();
+        user.setId(1L);
+        user.setEmail(request.email());
+        user.setUsername(request.username());
 
         when(userRepository.existsByEmail(request.email())).thenReturn(false);
         when(passwordEncoder.encode(request.password())).thenReturn("encodedPassword");

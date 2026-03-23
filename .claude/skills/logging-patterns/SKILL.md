@@ -232,13 +232,8 @@ import org.slf4j.LoggerFactory;
 @Service
 public class OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);
-}
 
-// Or with Lombok
-@Slf4j
-@Service
-public class OrderService {
-    // use `log` directly
+    // use `log` directly for logging
 }
 ```
 

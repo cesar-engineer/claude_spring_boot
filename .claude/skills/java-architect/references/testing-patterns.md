@@ -45,12 +45,11 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUser = User.builder()
-            .id(1L)
-            .email("test@example.com")
-            .username("testuser")
-            .active(true)
-            .build();
+        testUser = new User();
+        testUser.setId(1L);
+        testUser.setEmail("test@example.com");
+        testUser.setUsername("testuser");
+        testUser.setActive(true);
 
         userRequest = new UserRequest("test@example.com", "testuser");
         userResponse = new UserResponse(1L, "test@example.com", "testuser");
@@ -389,12 +388,12 @@ public class UserTestBuilder {
     }
 
     public User build() {
-        return User.builder()
-            .id(id)
-            .email(email)
-            .username(username)
-            .active(active)
-            .build();
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setActive(active);
+        return user;
     }
 }
 

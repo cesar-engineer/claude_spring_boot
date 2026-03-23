@@ -3,14 +3,12 @@ name: spring-boot-engineer
 description: Generates Spring Boot 3.x configurations, creates REST controllers, implements Spring Security 6 authentication flows, sets up Spring Data JPA repositories, and configures reactive WebFlux endpoints. Use when building Spring Boot 3.x applications, microservices, or reactive Java applications; invoke for Spring Data JPA, Spring Security 6, WebFlux, Spring Cloud integration, Java REST API design, or Microservices Java architecture.
 license: MIT
 metadata:
-  author: https://github.com/Jeffallan
-  version: "1.1.0"
   domain: backend
   triggers: Spring Boot, Spring Framework, Spring Cloud, Spring Security, Spring Data JPA, Spring WebFlux, Microservices Java, Java REST API, Reactive Java
   role: specialist
   scope: implementation
   output-format: code
-  related-skills: java-architect, database-optimizer, microservices-architect, devops-engineer
+  related-skills: java-architect
 ---
 
 # Spring Boot Engineer
@@ -56,7 +54,15 @@ public class Product {
     @DecimalMin("0.0")
     private BigDecimal price;
 
-    // getters / setters or use @Data (Lombok)
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 }
 ```
 

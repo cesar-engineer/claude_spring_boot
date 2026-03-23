@@ -9,10 +9,6 @@
     @Index(name = "idx_username", columnList = "username")
 })
 @EntityListeners(AuditingEntityListener.class)
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
 
     @Id
@@ -29,11 +25,9 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    @Builder.Default
     private Boolean active = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<Address> addresses = new ArrayList<>();
 
     @ManyToMany
@@ -42,7 +36,6 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
     @CreatedDate
@@ -55,6 +48,55 @@ public class User {
 
     @Version
     private Long version;
+
+    // Constructors
+    public User() {}
+
+    public User(Long id, String email, String password, String username, Boolean active,
+                List<Address> addresses, Set<Role> roles, LocalDateTime createdAt,
+                LocalDateTime updatedAt, Long version) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.active = active != null ? active : true;
+        this.addresses = addresses != null ? addresses : new ArrayList<>();
+        this.roles = roles != null ? roles : new HashSet<>();
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.version = version;
+    }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+
+    public List<Address> getAddresses() { return addresses; }
+    public void setAddresses(List<Address> addresses) { this.addresses = addresses; }
+
+    public Set<Role> getRoles() { return roles; }
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public Long getVersion() { return version; }
+    public void setVersion(Long version) { this.version = version; }
 
     // Helper methods for bidirectional relationships
     public void addAddress(Address address) {

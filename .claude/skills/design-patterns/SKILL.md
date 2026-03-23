@@ -108,15 +108,23 @@ User user = User.builder("John", "john@example.com")
     .build();
 ```
 
-**With Lombok:**
+**Alternative: Using records (Java 16+):**
 ```java
-@Builder
-@Getter
-public class User {
-    private final String name;
-    private final String email;
-    @Builder.Default private int age = 0;
-    private String phone;
+public record User(
+    String name,
+    String email,
+    int age,
+    String phone
+) {
+    public User {
+        if (age == 0) age = 0; // default value
+    }
+
+    public static Builder builder(String name, String email) {
+        return new Builder(name, email);
+    }
+
+    // Builder implementation shown above
 }
 ```
 
